@@ -324,6 +324,14 @@ function buffer.index_line(self, linenr, line)
       if #word >= self.opts.keyword_length then
         words[word_i] = word
         word_i = word_i + 1
+        -- version with different capitalisation
+        if word:match('^%l+$') then
+          words[word_i] = word:sub(1,1):upper() .. word:sub(2)
+          word_i = word_i + 1
+        elseif word:match('^%u%l+$') then
+          words[word_i] = word:sub(1,1):lower() .. word:sub(2)
+          word_i = word_i + 1
+        end
       end
       remaining = remaining:sub(match_end + 1)
     else
